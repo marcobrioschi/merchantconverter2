@@ -62,24 +62,61 @@ class IntergalacticStringMapperSpec extends Specification{
 
     }
 
-    // TODO: aggiungere un po' di casi
-    def "I translate a sequence with all elements known but invalid (also the empty sequence)"() {
+    @Unroll
+    def "I translate a sequence with all elements known but invalid [#sequence]"(def sequence) {
 
         given:
         populateMapperWith_zz()
 
         when:
-        mapper.translateSequence([ "zzx", "zzm" ])
+        mapper.translateSequence(sequence)
 
         then:
         thrown(MapperException)
 
+        where:
+        sequence                        |_
+        [ ]                             |_
+        [ "zzx", "zzm" ]                |_
+        [ "zzc", "zzi", "zzm" ]         |_
+        [ "zzi", "zzi", "zzi", "zzi" ]  |_
+
     }
 
-    @Ignore
-    def "I translate a sequence with all elements known"() {
-        expect:
-        assert true == false
+    @Unroll
+    def "I translate a sequence with all elements known [#sequence=#value]"(def sequence, int value) {
+
+        given:
+        populateMapperWith_zz()
+
+        when:
+        int result = mapper.translateSequence(sequence)
+
+        then:
+        assert result == value
+
+        where:
+        sequence                                                                        |   value
+
+        // 10 Random,  (goolge generator)
+        [ "zzm", "zzm", "zzm", "zzc", "zzd", "zzl", "zzx", "zzx", "zzi" ]               |       3471
+        [ "zzm", "zzm", "zzm", "zzd", "zzc", "zzc", "zzx", "zzi" ]                      |       3711
+        [ "zzc", "zzc", "zzc", "zzx", "zzc", "zzi", "zzx" ]                             |       399
+        [ "zzm", "zzm", "zzx", "zzx", "zzx", "zzv" ]                                    |       2035
+        [ "zzd", "zzc", "zzc", "zzc", "zzl", "zzx", "zzx", "zzv", "zzi", "zzi" ]        |       877
+        [ "zzm", "zzd", "zzx" ]                                                         |       1510
+        [ "zzd", "zzc", "zzl", "zzx", "zzx", "zzx", "zzi" ]                             |       681
+        [ "zzm", "zzm", "zzl", "zzx", "zzx", "zzi", "zzi", "zzi" ]                      |       2073
+        [ "zzm", "zzm", "zzd", "zzc", "zzc", "zzx", "zzv" ]                             |       2715
+        [ "zzm", "zzd", "zzc", "zzc", "zzx", "zzi", "zzx" ]                             |       1719
+
+        // Napoléon Bonaparte
+        [ "zzm", "zzd", "zzc", "zzc", "zzl", "zzx", "zzi", "zzx" ]                      |       1769
+        [ "zzm", "zzd", "zzc", "zzc", "zzx", "zzc", "zzi", "zzx" ]                      |       1799
+        [ "zzm", "zzd", "zzc", "zzc", "zzc", "zzi", "zzv" ]                             |       1804
+        [ "zzm", "zzd", "zzc", "zzc", "zzc", "zzx", "zzv" ]                             |       1815
+        [ "zzm", "zzd", "zzc", "zzc", "zzc", "zzx", "zzx", "zzi" ]                      |       1821
+
     }
 
 }

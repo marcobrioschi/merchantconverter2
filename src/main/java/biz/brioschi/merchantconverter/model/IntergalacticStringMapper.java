@@ -19,16 +19,54 @@ public class IntergalacticStringMapper {
     }
 
     public int translateSequence(List<String> sequence) throws MapperException {
-        List<String> invalidStrings = findAllUnknownStrings(sequence);
-        if (invalidStrings.size() == 0) {
-            List<String> romans = translateIntoRomanSymbols(sequence);
-            if (isRomanSequenceValid(romans)) {
-                return -1;
+        if (sequence.size() > 0) {
+            List<String> invalidStrings = findAllUnknownStrings(sequence);
+            if (invalidStrings.size() == 0) {
+                List<String> romans = translateIntoRomanSymbols(sequence);
+                if (isRomanSequenceValid(romans)) {
+                    return evaluateRomanSequence(romans);
+                } else {
+                    throw new MapperException("The sequence is invalid because it seems like '" + romans.stream().collect(Collectors.joining())  + "'");
+                }
             } else {
-                throw new MapperException("The sequence is invalid because it seems like '" + romans.stream().collect(Collectors.joining())  + "'");
+                throw new MapperException("Unknown elements: " + invalidStrings.stream().collect(Collectors.joining(", ")));
             }
         } else {
-            throw new MapperException("Unknown elements: " + invalidStrings.stream().collect(Collectors.joining(", ")));
+            throw new MapperException("Invalid empty sequence");
+        }
+    }
+
+    private int evaluateRomanSequence(List<String> romans) throws MapperException {
+        int value = 0;
+        int i = 0;
+        while ( i < romans.size() ) {
+
+            int currentCharValue = findRomanCharValue(romans.get(i));
+            int nextCharValue = (i < romans.size() - 1)?findRomanCharValue(romans.get(i + 1)):-1;
+
+            if ( (nextCharValue != -1) && (nextCharValue > currentCharValue) ) {
+                value -= currentCharValue;
+                value += nextCharValue;
+                i += 2;
+            } else {
+                value += currentCharValue;
+                i += 1;
+            }
+
+        }
+        return value;
+    }
+
+    private int findRomanCharValue(String str) throws MapperException {
+        switch(str) {
+            case "M" :   return 1000;
+            case "D" :   return 500;
+            case "C" :   return 100;
+            case "L" :   return 50;
+            case "X" :   return 10;
+            case "V" :   return 5;
+            case "I" :   return 1;
+            default : throw new MapperException("Invalid roman char '" + str + "'");
         }
     }
 
