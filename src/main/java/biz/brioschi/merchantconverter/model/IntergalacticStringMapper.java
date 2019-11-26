@@ -11,14 +11,14 @@ public class IntergalacticStringMapper {
 
     Map<String, String> mapping = new Hashtable<>();
 
-    public void addMapping(String intergalacticSequence, String romanChar) throws Exception {
+    public void addMapping(String intergalacticSequence, String romanChar) throws ConverterException {
         if (mapping.containsKey(intergalacticSequence) || mapping.containsValue(romanChar)) {
-            throw new MapperException("The roman char '" + romanChar + "' or the value '" + intergalacticSequence + "' are already mapped");
+            throw new ConverterException("The roman char '" + romanChar + "' or the value '" + intergalacticSequence + "' are already mapped");
         }
         mapping.put(intergalacticSequence, romanChar);
     }
 
-    public int translateSequence(List<String> sequence) throws MapperException {
+    public int translateSequence(List<String> sequence) throws ConverterException {
         if (sequence.size() > 0) {
             List<String> invalidStrings = findAllUnknownStrings(sequence);
             if (invalidStrings.size() == 0) {
@@ -26,17 +26,17 @@ public class IntergalacticStringMapper {
                 if (isRomanSequenceValid(romans)) {
                     return evaluateRomanSequence(romans);
                 } else {
-                    throw new MapperException("The sequence is invalid because it seems like '" + romans.stream().collect(Collectors.joining())  + "'");
+                    throw new ConverterException("The sequence is invalid because it seems like '" + romans.stream().collect(Collectors.joining())  + "'");
                 }
             } else {
-                throw new MapperException("Unknown elements: " + invalidStrings.stream().collect(Collectors.joining(", ")));
+                throw new ConverterException("Unknown elements: " + invalidStrings.stream().collect(Collectors.joining(", ")));
             }
         } else {
-            throw new MapperException("Invalid empty sequence");
+            throw new ConverterException("Invalid empty sequence");
         }
     }
 
-    private int evaluateRomanSequence(List<String> romans) throws MapperException {
+    private int evaluateRomanSequence(List<String> romans) throws ConverterException {
         int value = 0;
         int i = 0;
         while ( i < romans.size() ) {
@@ -57,7 +57,7 @@ public class IntergalacticStringMapper {
         return value;
     }
 
-    private int findRomanCharValue(String str) throws MapperException {
+    private int findRomanCharValue(String str) throws ConverterException {
         switch(str) {
             case "M" :   return 1000;
             case "D" :   return 500;
@@ -66,7 +66,7 @@ public class IntergalacticStringMapper {
             case "X" :   return 10;
             case "V" :   return 5;
             case "I" :   return 1;
-            default : throw new MapperException("Invalid roman char '" + str + "'");
+            default : throw new ConverterException("Invalid roman char '" + str + "'");
         }
     }
 

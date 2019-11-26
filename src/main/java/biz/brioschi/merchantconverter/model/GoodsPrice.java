@@ -1,9 +1,23 @@
 package biz.brioschi.merchantconverter.model;
 
-import lombok.Data;
+import java.math.BigDecimal;
 
-@Data
 public class GoodsPrice {
-    final String name;
-    final double price;
+
+    private final String name;
+    private final BigDecimal price;
+
+    public GoodsPrice(String name, BigDecimal price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
 }

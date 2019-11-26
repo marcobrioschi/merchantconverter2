@@ -1,6 +1,6 @@
 package biz.brioschi.merchantconverter.model
 
-import spock.lang.Ignore
+
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -22,7 +22,7 @@ class IntergalacticStringMapperSpec extends Specification{
         mapper.addMapping("alalal", "V" )
 
         then:
-        thrown(MapperException)
+        thrown(ConverterException)
     }
 
     def "I add a string with two different symbol mapping"() {
@@ -31,7 +31,7 @@ class IntergalacticStringMapperSpec extends Specification{
         mapper.addMapping("zxkkjd", "X")
 
         then:
-        thrown(MapperException)
+        thrown(ConverterException)
     }
 
     private void populateMapperWith_zz() {
@@ -50,7 +50,7 @@ class IntergalacticStringMapperSpec extends Specification{
         mapper.translateSequence(sequence)
 
         then:
-        thrown(MapperException)
+        thrown(ConverterException)
 
         where:
         sequence                        |_
@@ -72,7 +72,7 @@ class IntergalacticStringMapperSpec extends Specification{
         mapper.translateSequence(sequence)
 
         then:
-        thrown(MapperException)
+        thrown(ConverterException)
 
         where:
         sequence                        |_
