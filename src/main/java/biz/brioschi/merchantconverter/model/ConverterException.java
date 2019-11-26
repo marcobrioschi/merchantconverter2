@@ -1,8 +1,8 @@
 package biz.brioschi.merchantconverter.model;
 
 // TODO: enum with error description
-public class MapperException extends Exception {
-    public MapperException(String message) {
+public class ConverterException extends Exception {
+    public ConverterException(String message) {
         super(message);
     }
 }
