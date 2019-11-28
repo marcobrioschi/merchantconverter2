@@ -1,7 +1,7 @@
 grammar merchantshell;
 
 start :
-    commandline (CMDSEP commandline)* EOF
+    commandline EOF
     ;
 
 commandline :

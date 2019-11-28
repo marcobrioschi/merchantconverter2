@@ -18,7 +18,7 @@ public class GoodsTradingUseCase {
         this.repository = repository;
     }
 
-    Optional<BigDecimal> goodsTrading(String goodsName, List<String> quantity) throws ConverterException {
+    public Optional<BigDecimal> goodsTrading(String goodsName, List<String> quantity) throws ConverterException {
         Optional<BigDecimal> gp = repository.getGoodsPrice(goodsName);
         if (gp.isPresent()) {
             BigDecimal quantityBD = new BigDecimal( mapper.translateSequence(quantity) );

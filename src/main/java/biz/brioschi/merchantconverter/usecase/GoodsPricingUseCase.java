@@ -6,6 +6,7 @@ import biz.brioschi.merchantconverter.model.GoodsPriceRepository;
 import biz.brioschi.merchantconverter.model.IntergalacticStringMapper;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.List;
 
 public class GoodsPricingUseCase {
@@ -21,7 +22,7 @@ public class GoodsPricingUseCase {
     public void goodsPricing(String name, List<String> quantity, long credits) throws ConverterException {
         BigDecimal quantityBD = new BigDecimal(mapper.translateSequence(quantity));
         BigDecimal creditsBD = new BigDecimal(credits);
-        GoodsPrice gp = new GoodsPrice(name, quantityBD.divide(creditsBD));
+        GoodsPrice gp = new GoodsPrice(name, creditsBD.divide(quantityBD, MathContext.DECIMAL32));
         repository.addGoodsPrice(gp);
     }
 
