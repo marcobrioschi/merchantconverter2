@@ -20,6 +20,7 @@ public class MerchantShell {
     public Optional<String> parseLine(String line) {
         try {
             merchantshellLexer lexer = new merchantshellLexer(CharStreams.fromString(line));
+            lexer.removeErrorListeners();
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             merchantshellParser parser = new merchantshellParser(tokens);
             parser.setErrorHandler(new BailErrorStrategy());

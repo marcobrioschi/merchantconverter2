@@ -12,7 +12,6 @@ public class SymbolDeclarationUseCase {
     }
 
     public void symbolDeclare(String intergalacticString, String romanChar) throws ConverterException {
-        // TODO: verifica il carattere romano
         mapper.addMapping(intergalacticString, romanChar);
     }
 

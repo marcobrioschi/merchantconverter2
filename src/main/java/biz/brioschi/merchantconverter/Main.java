@@ -7,17 +7,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Main {
 
-    private static final String EXIT = "exit";
+    private static final String EXIT_CMD = "exit";
 
     private static MerchantShell shell = new MerchantShell();
 
-    // TODO create a converter class
     public static void main(String args[]) {
         if (args.length == 0) {     // Interactive input
             interactiveConsoleInput();
@@ -35,10 +33,10 @@ public class Main {
         do {
             System.out.printf("> ");
             line = scanner.nextLine();
-            if (!EXIT.equals(line)) {
-                parseString(line);
+            if (!EXIT_CMD.equals(line)) {
+                shell.parseLine(line).ifPresent(value -> System.out.println(value) );
             };
-        } while (!EXIT.equals(line));
+        } while (!EXIT_CMD.equals(line));
     }
 
     private static void parseFileContent(String fileName) {
@@ -46,18 +44,11 @@ public class Main {
             List<String> lines = Files.lines(Paths.get(fileName), StandardCharsets.UTF_8).collect(Collectors.toList());
             for (String line : lines) {
                 System.out.printf("> %s\n", line);
-                parseString(line);
+                shell.parseLine(line).ifPresent(value -> System.out.println(value) );
             }
         } catch (IOException e) {
             System.out.printf("Error on reading file %s: %s\n", fileName, e.getMessage());
         };
-    }
-
-    private static void parseString(String content) {
-        Optional<String> result = shell.parseLine(content);
-        if (result.isPresent()) {
-            System.out.println(result.get());
-        }
     }
 
 }
